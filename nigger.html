@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>R0v0 Blox - Ultimate Cyber Database</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --main-color: #00ffff;
+            --bg-color: #000000;
+            --panel-bg: #050505;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--main-color);
+            font-family: 'Orbitron', sans-serif;
+            min-height: 100vh;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+        
+        body.low-gfx * {
+            box-shadow: none !important;
+            text-shadow: none !important;
+            animation: none !important;
+        }
+        body.low-gfx .panel {
+            border: 1px solid var(--main-color);
+            background-color: var(--bg-color);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding: 20px;
+            border-bottom: 2px solid var(--main-color);
+            box-shadow: 0 5px 15px var(--main-color);
+        }
+        
+        h1 {
+            font-size: 28px;
+            font-weight: 900;
+            text-shadow: 0 0 15px var(--main-color);
+            letter-spacing: 3px;
+        }
+        
+        .subtitle {
+            font-size: 11px;
+            color: #ffffff;
+            margin-top: 8px;
+            letter-spacing: 1px;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            background-color: var(--panel-bg);
+            color: var(--main-color);
+            border: 2px solid var(--main-color);
+            padding: 10px 18px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-btn.active, .tab-btn:hover {
+            background-color: var(--main-color);
+            color: #000000;
+            box-shadow: 0 0 15px var(--main-color);
+            transform: scale(1.05);
+        }
+        
+        .container {
+            max-width: 850px;
+            margin: 0 auto;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .panel {
+            background-color: var(--panel-bg);
+            border: 2px solid var(--main-color);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px var(--main-color);
+        }
+        
+        h2 {
+            font-size: 16px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-left: 4px solid var(--main-color);
+            padding-left: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            font-size: 11px;
+            margin-bottom: 6px;
+            color: #ffffff;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            background-color: #000000;
+            border: 1px solid var(--main-color);
+            color: var(--main-color);
+            padding: 12px;
+            border-radius: 6px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        input[type="color"] {
+            height: 40px;
+            padding: 2px;
+            cursor: pointer;
+        }
+        
+        textarea {
+            resize: vertical;
+            height: 100px;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            box-shadow: 0 0 12px var(--main-color);
+        }
+        
+        .btn-cyber {
+            background-color: transparent;
+            color: var(--main-color);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            border: 2px solid var(--main-color);
+            border-radius: 6px;
+            padding: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn-cyber:hover {
+            background-color: var(--main-color);
+            color: #000000;
+            box-shadow: 0 0 20px var(--main-color);
+            transform: scale(1.02);
+        }
+        
+        .script-card {
+            background-color: #0a0a0a;
+            border: 1px solid var(--main-color);
+            border-radius: 8px;
+            padding: 18px;
+            margin-bottom: 15px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .script-card:hover {
+            box-shadow: 0 0 15px var(--main-color);
+        }
+        
+        .script-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-bottom: 6px;
+        }
+        
+        .script-meta {
+            font-size: 10px;
+            color: #cccccc;
+            margin-bottom: 12px;
+        }
+        
+        .script-code {
+            background-color: #000000;
+            border: 1px dashed var(--main-color);
+            padding: 12px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 11px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            margin-bottom: 12px;
+            color: #ffffff;
+        }
+        
+        .action-bar {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .btn-action {
+            padding: 8px 14px;
+            font-size: 11px;
+            width: auto;
+            background: transparent;
+            color: var(--main-color);
+            border: 1px solid var(--main-color);
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Orbitron', sans-serif;
+            transition: 0.2s;
+        }
+        
+        .btn-action:hover {
+            background-color: var(--main-color);
+            color: #000;
+        }
+        
+        .vote-group {
+            display: flex;
+            gap: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>R0V0 BLOX ULTIMATE</h1>
+            <p class="subtitle" id="txt-subtitle">CYBER DATABASE SCRIPT SYSTEM 💀🔥</p>
+        </header>
+
+        <div class="nav-tabs">
+            <button class="tab-btn active" id="tab-home" onclick="switchTab('home')">🏠 Dashboard</button>
+            <button class="tab-btn" id="tab-publish" onclick="switchTab('publish')">➕ Publish Script</button>
+            <button class="tab-btn" id="tab-terminal" onclick="switchTab('terminal')">💻 Terminal</button>
+            <button class="tab-btn" id="tab-settings" onclick="switchTab('settings')">⚙️ Settings</button>
+        </div>
+
+        <div id="home" class="tab-content active">
+            <div class="panel">
+                <h2 id="txt-db-title">📜 Database Script Tersimpan</h2>
+                <div id="scriptList" style="margin-top: 15px;"></div>
+            </div>
+        </div>
+
+        <div id="publish" class="tab-content">
+            <div class="panel">
+                <h2 id="txt-pub-title">🚀 Upload Script Baru</h2>
+                <div class="form-group" style="margin-top: 15px;">
+                    <label id="lbl-title">Judul Script:</label>
+                    <input type="text" id="scriptTitle" placeholder="Contoh: R0v0 Hub Universal">
+                </div>
+                <div class="form-group">
+                    <label id="lbl-author">Nama Pembuat (Author):</label>
+                    <input type="text" id="scriptAuthor" placeholder="Contoh: @r0vankidd">
+                </div>
+                <div class="form-group">
+                    <label id="lbl-desc">Kategori Game / Deskripsi:</label>
+                    <input type="text" id="scriptDesc" placeholder="Contoh: Blox Fruits / Universal Script">
+                </div>
+                <div class="form-group">
+                    <label id="lbl-code">Kode Script (Lua):</label>
+                    <textarea id="scriptContent" placeholder="loadstring(game:HttpGet('...'))()"></textarea>
+                </div>
+                <button class="btn-cyber" id="btn-save" onclick="publishScript()">Simpan Ke Database 💾</button>
+            </div>
+        </div>
+
+        <div id="terminal" class="tab-content">
+            <div class="panel">
+                <h2 id="txt-term-title">💻 R0v0 Hacker Terminal</h2>
+                <div class="script-code" style="height: 150px; overflow-y: auto;" id="terminalLog">
+                    [R0v0-Core] System initialized successfully...<br>
+                    [R0v0-Core] Ready for command execution, Tuan!
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button class="btn-action" onclick="termCommand('clear')">Clear Logs</button>
+                    <button class="btn-action" onclick="termCommand('status')">System Status</button>
+                    <button class="btn-action" onclick="termCommand('hack')">Run Bypass</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="settings" class="tab-content">
+            <div class="panel">
+                <h2 id="txt-set-title">⚙️ System Settings</h2>
+                
+                <div class="form-group">
+                    <label id="lbl-lang">Pilih Bahasa / Language:</label>
+                    <select id="langSelect" onchange="applySettings()">
+                        <option value="id">Indonesia 🇮🇩</option>
+                        <option value="en">English 🇺🇸</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label id="lbl-color">Pilih Warna Tema Utama:</label>
+                    <input type="color" id="colorSelect" value="#00ffff" onchange="applySettings()">
+                </div>
+
+                <div class="form-group">
+                    <label id="lbl-gfx">Pilih Mode Grafis:</label>
+                    <select id="gfxSelect" onchange="applySettings()">
+                        <option value="high">High (Animasi Realistis & Glow) ✨</option>
+                        <option value="low">Low (Ringan & Cepat) ⚡</option>
+                    </select>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+            id: {
+                subtitle: "CYBER DATABASE SCRIPT SYSTEM 💀🔥",
+                tabHome: "🏠 Dashboard",
+                tabPub: "➕ Publish Script",
+                tabTerm: "💻 Terminal",
+                tabSet: "⚙️ Settings",
+                dbTitle: "📜 Database Script Tersimpan",
+                pubTitle: "🚀 Upload Script Baru",
+                lblTitle: "Judul Script:",
+                lblAuthor: "Nama Pembuat (Author):",
+                lblDesc: "Kategori Game / Deskripsi:",
+                lblCode: "Kode Script (Lua):",
+                btnSave: "Simpan Ke Database 💾",
+                termTitle: "💻 R0v0 Hacker Terminal",
+                setTitle: "⚙️ System Settings",
+                lblLang: "Pilih Bahasa / Language:",
+                lblColor: "Pilih Warna Tema Utama:",
+                lblGfx: "Pilih Mode Grafis:",
+                emptyMsg: "Database masih kosong, Tuan. Yuk publish script pertama lu!"
+            },
+            en: {
+                subtitle: "CYBER SCRIPT DATABASE SYSTEM 💀🔥",
+                tabHome: "🏠 Dashboard",
+                tabPub: "➕ Publish Script",
+                tabTerm: "💻 Terminal",
+                tabSet: "⚙️ Settings",
+                dbTitle: "📜 Saved Script Database",
+                pubTitle: "🚀 Upload New Script",
+                lblTitle: "Script Title:",
+                lblAuthor: "Creator Name (Author):",
+                lblDesc: "Game Category / Description:",
+                lblCode: "Script Code (Lua):",
+                btnSave: "Save To Database 💾",
+                termTitle: "💻 R0v0 Hacker Terminal",
+                setTitle: "⚙️ System Settings",
+                lblLang: "Choose Language:",
+                lblColor: "Choose Main Theme Color:",
+                lblGfx: "Choose Graphics Mode:",
+                emptyMsg: "Database is empty, Master. Let's publish your first script!"
+            }
+        };
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        function applySettings() {
+            const lang = document.getElementById("langSelect").value;
+            const color = document.getElementById("colorSelect").value;
+            const gfx = document.getElementById("gfxSelect").value;
+
+            document.documentElement.style.setProperty('--main-color', color);
+
+            if (gfx === "low") {
+                document.body.classList.add("low-gfx");
+            } else {
+                document.body.classList.remove("low-gfx");
+            }
+
+            document.getElementById("txt-subtitle").innerText = translations[lang].subtitle;
+            document.getElementById("tab-home").innerText = translations[lang].tabHome;
+            document.getElementById("tab-publish").innerText = translations[lang].tabPub;
+            document.getElementById("tab-terminal").innerText = translations[lang].tabTerm;
+            document.getElementById("tab-settings").innerText = translations[lang].tabSet;
+            document.getElementById("txt-db-title").innerText = translations[lang].dbTitle;
+            document.getElementById("txt-pub-title").innerText = translations[lang].pubTitle;
+            document.getElementById("lbl-title").innerText = translations[lang].lblTitle;
+            document.getElementById("lbl-author").innerText = translations[lang].lblAuthor;
+            document.getElementById("lbl-desc").innerText = translations[lang].lblDesc;
+            document.getElementById("lbl-code").innerText = translations[lang].lblCode;
+            document.getElementById("btn-save").innerText = translations[lang].btnSave;
+            document.getElementById("txt-term-title").innerText = translations[lang].termTitle;
+            document.getElementById("txt-set-title").innerText = translations[lang].setTitle;
+            document.getElementById("lbl-lang").innerText = translations[lang].lblLang;
+            document.getElementById("lbl-color").innerText = translations[lang].lblColor;
+            document.getElementById("lbl-gfx").innerText = translations[lang].lblGfx;
+
+            const config = { lang, color, gfx };
+            localStorage.setItem("r0vo_config", JSON.stringify(config));
+            
+            loadScripts(); 
+        }
+
+        function loadConfig() {
+            const saved = JSON.parse(localStorage.getItem("r0vo_config"));
+            if (saved) {
+                document.getElementById("langSelect").value = saved.lang || "id";
+                document.getElementById("colorSelect").value = saved.color || "#00ffff";
+                document.getElementById("gfxSelect").value = saved.gfx || "high";
+            }
+            applySettings();
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            loadConfig();
+            loadScripts();
+        });
+
+        function publishScript() {
+            const title = document.getElementById("scriptTitle").value.trim();
+            const author = document.getElementById("scriptAuthor").value.trim();
+            const desc = document.getElementById("scriptDesc").value.trim();
+            const content = document.getElementById("scriptContent").value.trim();
+
+            if (!title || !author || !content) {
+                alert("⚠️ Data belum lengkap, Tuan!");
+                return;
+            }
+
+            const newScript = {
+                id: Date.now(),
+                title: title,
+                author: author,
+                desc: desc || "Universal",
+                content: content,
+                likes: 0,
+                dislikes: 0
+            };
+
+            let scripts = JSON.parse(localStorage.getItem("r0vo_ultimate_scripts")) || [];
+            scripts.unshift(newScript);
+            localStorage.setItem("r0vo_ultimate_scripts", JSON.stringify(scripts));
+
+            document.getElementById("scriptTitle").value = "";
+            document.getElementById("scriptAuthor").value = "";
+            document.getElementById("scriptDesc").value = "";
+            document.getElementById("scriptContent").value = "";
+
+            switchTab('home');
+            loadScripts();
+        }
+
+        function loadScripts() {
+            const listContainer = document.getElementById("scriptList");
+            let scripts = JSON.parse(localStorage.getItem("r0vo_ultimate_scripts")) || [];
+            let userVotes = JSON.parse(localStorage.getItem("r0vo_votes")) || {};
+            const lang = document.getElementById("langSelect").value;
+
+            if (scripts.length === 0) {
+                listContainer.innerHTML = `<p style='text-align:center; color:var(--main-color);'>${translations[lang].emptyMsg}</p>`;
+                return;
+            }
+
+            let html = "";
+            scripts.forEach(script => {
+                let likeStyle = "";
+                let dislikeStyle = "";
+
+                if (userVotes[script.id] === 'like') {
+                    likeStyle = "border: 2px solid #00ff00; color: #00ff00; box-shadow: 0 0 10px #00ff00;";
+                } else if (userVotes[script.id] === 'dislike') {
+                    dislikeStyle = "border: 2px solid #ff0000; color: #ff0000; box-shadow: 0 0 10px #ff0000;";
+                }
+
+                html += `
+                    <div class="script-card">
+                        <div class="script-title">${escapeHtml(script.title)}</div>
+                        <div class="script-meta">Kategori: ${escapeHtml(script.desc)} | By: ${escapeHtml(script.author)}</div>
+                        <div class="script-code">${escapeHtml(script.content)}</div>
+                        <div class="action-bar">
+                            <button class="btn-action" onclick="copyCode(this, \`${encodeURIComponent(script.content)}\`)">📋 Copy</button>
+                            <div class="vote-group">
+                                <button class="btn-action" style="${likeStyle}" onclick="vote(${script.id}, 'like')">👍 ${script.likes}</button>
+                                <button class="btn-action" style="${dislikeStyle}" onclick="vote(${script.id}, 'dislike')">👎 ${script.dislikes}</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+            listContainer.innerHTML = html;
+        }
+
+        function copyCode(btn, encodedContent) {
+            const content = decodeURIComponent(encodedContent);
+            navigator.clipboard.writeText(content).then(() => {
+                let originalText = btn.innerText;
+                btn.innerText = "✅ Copied!";
+                setTimeout(() => { btn.innerText = originalText; }, 1500);
+            });
+        }
+
+        function vote(id, type) {
+            let userVotes = JSON.parse(localStorage.getItem("r0vo_votes")) || {};
+            let currentVote = userVotes[id];
+
+            if (currentVote === type) {
+                return;
+            }
+
+            let scripts = JSON.parse(localStorage.getItem("r0vo_ultimate_scripts")) || [];
+            scripts = scripts.map(script => {
+                if (script.id === id) {
+                    if (currentVote === 'like' && type === 'dislike') {
+                        script.likes--;
+                        script.dislikes++;
+                    } else if (currentVote === 'dislike' && type === 'like') {
+                        script.dislikes--;
+                        script.likes++;
+                    } else if (!currentVote) {
+                        if (type === 'like') script.likes++;
+                        if (type === 'dislike') script.dislikes++;
+                    }
+                }
+                return script;
+            });
+            
+            localStorage.setItem("r0vo_ultimate_scripts", JSON.stringify(scripts));
+            
+            userVotes[id] = type;
+            localStorage.setItem("r0vo_votes", JSON.stringify(userVotes));
+            
+            loadScripts();
+        }
+
+        function termCommand(cmd) {
+            const logBox = document.getElementById("terminalLog");
+            let time = new Date().toLocaleTimeString();
+            if (cmd === 'clear') {
+                logBox.innerHTML = `[${time}] Terminal cleared, Tuan.<br>`;
+            } else if (cmd === 'status') {
+                logBox.innerHTML += `[${time}] System Status: Database Online, Settings Active.<br>`;
+            } else if (cmd === 'hack') {
+                logBox.innerHTML += `[${time}] Bypassing Anti-Cheat... Success!<br>`;
+            }
+            logBox.scrollTop = logBox.scrollHeight;
+        }
+
+        function escapeHtml(text) {
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+    </script>
+
+</body>
+</html>
